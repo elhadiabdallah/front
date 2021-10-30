@@ -1,5 +1,6 @@
 import React, {SyntheticEvent, useState} from 'react'
 import axios from 'axios';
+import Cookies from 'js-cookie'
 import router, { useRouter } from 'next/router'
 
 function login() {
@@ -11,10 +12,15 @@ function login() {
         e.preventDefault();
         
         try {
-            await axios.post('http://localhost:8000/dashboard/login', {
+            await axios.post('https://api.wazzfny.com/dashboard/login', {
                 email,
                 password
             }, { withCredentials: true })
+            .then(res=>{
+                console.log(res);
+                Cookies.set('token', res.data.data)
+
+            })
          } catch (ex) {
              if(ex.response && ex.response.status === 422){
 
